@@ -1,6 +1,6 @@
 package algorithm.linkedlist;
 
-import com.company.DataInterface;
+import com.company.DataHelperInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +25,7 @@ import java.util.List;
  * 0 <= k <= 50
  */
 
-public class DeleteNode implements DataInterface {
+public class DeleteNode implements DataHelperInterface<DeleteNode.ListNode>{
     static class ListNode {
         int val;
         ListNode next;
@@ -69,7 +69,8 @@ public class DeleteNode implements DataInterface {
         return newHead;
     }
 
-    private static ListNode prepareData(){
+    @Override
+    public ListNode prepareInput() {
         ListNode listNode_1 = new ListNode(1);
         ListNode listNode_2 = new ListNode(2);
         ListNode listNode_3 = new ListNode(6);
@@ -87,22 +88,12 @@ public class DeleteNode implements DataInterface {
     }
 
     @Override
-    public void prepareInput() {
-
-    }
-
-    @Override
     public void startOutput() {
-
-    }
-
-    public static void output(){
-        ListNode node = removeElements(prepareData(), 6);
+        ListNode node = removeElements(prepareInput(), 6);
         List<Integer> list = new ArrayList<>();
         for(ListNode cur = node; cur != null; cur = cur.next) {
             list.add(cur.val);
         }
         System.out.println(list.toString());
     }
-
 }
