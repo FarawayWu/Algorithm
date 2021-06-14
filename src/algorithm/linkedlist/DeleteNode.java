@@ -48,7 +48,7 @@ public class DeleteNode implements DataHelperInterface<DeleteNode.ListNode>{
      * @param val
      * @return
      */
-    private static ListNode removeElements(ListNode head, int val) {
+    private ListNode removeElements(ListNode head, int val) {
         ListNode newHead = null;
         ListNode lastNode = null;
         for(ListNode next = head; next != null; next = next.next) {
@@ -67,6 +67,46 @@ public class DeleteNode implements DataHelperInterface<DeleteNode.ListNode>{
             }
         }
         return newHead;
+    }
+
+    /**
+     * build a virtual first node;
+     * 相较于自己的方法，少开辟一个cur node空间
+     * @param head
+     * @param val
+     * @return
+     */
+    private ListNode removeElements_build_node(ListNode head, int val) {
+        ListNode newHead = new ListNode();
+        newHead.next = head;
+        ListNode cur = newHead;
+        while (cur.next != null) {
+            if(cur.next.val == val) {
+                cur.next = cur.next.next;
+            } else {
+                cur = cur.next;
+            }
+        }
+        return newHead.next;
+    }
+
+    /**
+     * 递归
+     * 链表的定义具备递归的性质。
+     * 可以这样理解：n个节点，每次仅处理head
+     *            if (head == null) return;
+     *            else if head.val == deleteVal return head.next;
+     *            else if head.val != deleteVal return head;
+     * @param head
+     * @param val
+     * @return
+     */
+    private ListNode removeElements_recursion(ListNode head, int val) {
+        if(head == null) {
+            return null;
+        }
+        head.next = removeElements(head.next, val);
+        return head.val == val ? head.next : head;
     }
 
     @Override
@@ -89,7 +129,7 @@ public class DeleteNode implements DataHelperInterface<DeleteNode.ListNode>{
 
     @Override
     public void startOutput() {
-        ListNode node = removeElements(prepareInput(), 6);
+        ListNode node = removeElements_recursion(prepareInput(), 6);
         List<Integer> list = new ArrayList<>();
         for(ListNode cur = node; cur != null; cur = cur.next) {
             list.add(cur.val);
